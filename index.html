@@ -266,8 +266,9 @@
           </div>
 
           <div class="form-container">
-            <form class="contact-form" id="deepnxt-contact-form">
-              <input type="hidden" name="access_key" value="a5f28ec2-c9e0-4f29-9b8e-a9c5dc044cb6">
+            <form class="contact-form" id="deepnxt-contact-form" action="https://api.web3forms.com/submit"
+              method="POST">
+              <input type="hidden" name="access_key" value="3ad2f3a3-959b-4fa6-a5d3-54bf2f5f31f1">
               <input type="hidden" name="subject" value="New Lead from DeepNxt Website">
               <input type="checkbox" name="botcheck" class="hidden" style="display: none;">
 
@@ -330,7 +331,8 @@
                 <textarea id="message" name="message" rows="4"></textarea>
               </div>
 
-              <button type="submit" class="btn btn-primary" id="form-submit-btn" style="width:100%">Submit
+              <button type="button" class="btn btn-primary" id="form-submit-btn" style="width:100%"
+                onclick="sendMail()">Submit
                 Request</button>
             </form>
           </div>

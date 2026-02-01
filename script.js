@@ -36,54 +36,54 @@ if (yearSpan) {
 }
 
 // 4. Contact Form Handling (Web3Forms)
-const contactForm = document.getElementById('deepnxt-contact-form');
-const submitButton = document.getElementById('form-submit-btn');
+// 4. Contact Form Handling (Web3Forms)
+function sendMail() {
+    const contactForm = document.getElementById('deepnxt-contact-form');
+    const submitButton = document.getElementById('form-submit-btn');
 
-if (contactForm) {
-    contactForm.addEventListener('submit', function(e) {
-        e.preventDefault(); // Stop page reload
+    // 1. Basic Validation check
+    if (!contactForm.checkValidity()) {
+        contactForm.reportValidity();
+        return;
+    }
 
-        // Update Button State
-        const originalBtnText = submitButton.innerText;
-        submitButton.innerText = "Sending...";
-        submitButton.disabled = true;
+    // 2. Visual feedback
+    const originalBtnText = submitButton.innerText;
+    submitButton.innerText = "Sending...";
+    submitButton.disabled = true;
 
-        // Prepare Data
-        const formData = new FormData(contactForm);
-        const object = Object.fromEntries(formData);
-        const json = JSON.stringify(object);
+    // 3. Collect Data
+    const formData = new FormData(contactForm);
+    const object = Object.fromEntries(formData);
+    const json = JSON.stringify(object);
 
-        // Send Data
-        fetch('https://api.web3forms.com/submit', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json'
-                },
-                body: json
-            })
-            .then(async (response) => {
-                let json = await response.json();
-                if (response.status == 200) {
-                    // Success
-                    showFormToast(true); // Show success toast
-                    contactForm.reset(); // Clear form
-                } else {
-                    // Error
-                    console.log(response);
-                    alert(json.message || "Something went wrong. Please try again.");
-                }
-            })
-            .catch(error => {
-                console.log(error);
-                alert("Something went wrong. Please check your internet connection.");
-            })
-            .finally(() => {
-                // Reset Button State
-                submitButton.innerText = originalBtnText;
-                submitButton.disabled = false;
-            });
-    });
+    // 4. Send to Web3Forms
+    fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        },
+        body: json
+    })
+        .then(async (response) => {
+            let result = await response.json();
+            if (response.status == 200) {
+                showFormToast(true);
+                contactForm.reset();
+            } else {
+                alert(result.message || "Submission failed");
+            }
+        })
+        .catch(error => {
+            console.error(error);
+            alert("Network error. Please check your connection.");
+        })
+        .finally(() => {
+            // Reset Button State
+            submitButton.innerText = originalBtnText;
+            submitButton.disabled = false;
+        });
 }
 
 // Helper: Toast Notification
