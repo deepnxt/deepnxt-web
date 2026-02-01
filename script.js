@@ -37,7 +37,8 @@ if (yearSpan) {
 
 // 4. Contact Form Handling (Web3Forms)
 // 4. Contact Form Handling (Web3Forms)
-function sendMail() {
+// 4. Contact Form Handling (Web3Forms)
+window.sendMail = function () {
     const contactForm = document.getElementById('deepnxt-contact-form');
     const submitButton = document.getElementById('form-submit-btn');
 
