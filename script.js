@@ -36,7 +36,7 @@ if (yearSpan) {
 }
 
 // 4. Contact Form Handling (Web3Forms)
-const contactForm = document.getElementById('innovatai-contact-form');
+const contactForm = document.getElementById('deepnxt-contact-form');
 const submitButton = document.getElementById('form-submit-btn');
 
 if (contactForm) {
