@@ -88,27 +88,31 @@ window.handleLeadMagnet = function () {
     const companyInput = document.getElementById('lm-company');
     const btn = form.querySelector('.lead-magnet-btn');
 
-    if (!emailInput.value || !emailInput.checkValidity()) {
-        emailInput.reportValidity();
-        return;
-    }
     if (!nameInput.value || !nameInput.checkValidity()) {
         nameInput.reportValidity();
         return;
     }
+    if (!emailInput.value || !emailInput.checkValidity()) {
+        emailInput.reportValidity();
+        return;
+    }
+    if (!companyInput.value || !companyInput.checkValidity()) {
+        companyInput.reportValidity();
+        return;
+    }
 
     const originalText = btn.innerText;
-    btn.innerText = "Processing...";
+    btn.innerText = "Sending...";
     btn.disabled = true;
 
-    const payload = {
-        access_key: "3ad2f3a3-959b-4fa6-a5d3-54bf2f5f31f1",
-        subject: "Lead Magnet Download - AI Transformation Guide",
-        name: nameInput.value,
-        email: emailInput.value,
-        company: companyInput.value || "Not provided",
-        message: "Downloaded the Enterprise AI Transformation Guide (PDF)"
-    };
+    // Use FormData to include all hidden fields (access_key, subject, botcheck honeypot)
+    const formData = new FormData(form);
+    formData.set('name', nameInput.value);
+    formData.set('email', emailInput.value);
+    formData.set('company', companyInput.value);
+    formData.set('message', 'Requested the Enterprise AI Transformation Guide (PDF) — Please follow up with the guide.');
+    const object = Object.fromEntries(formData);
+    const json = JSON.stringify(object);
 
     fetch('https://api.web3forms.com/submit', {
         method: 'POST',
@@ -116,13 +120,11 @@ window.handleLeadMagnet = function () {
             'Content-Type': 'application/json',
             'Accept': 'application/json'
         },
-        body: JSON.stringify(payload)
+        body: json
     })
         .then(async (response) => {
             if (response.status == 200) {
-                // Trigger PDF download
-                triggerPDFDownload();
-                showFormToast(true, "Guide downloaded! Check your downloads folder.");
+                showFormToast(true, "Thank you! We'll send the guide to your email shortly.");
                 form.reset();
             } else {
                 let result = await response.json();
@@ -131,10 +133,7 @@ window.handleLeadMagnet = function () {
         })
         .catch(error => {
             console.error(error);
-            // Still download the PDF even if web3forms fails
-            triggerPDFDownload();
-            showFormToast(true, "Guide downloaded! Check your downloads folder.");
-            form.reset();
+            alert("Network error. Please check your connection and try again.");
         })
         .finally(() => {
             btn.innerText = originalText;
@@ -145,23 +144,30 @@ window.handleLeadMagnet = function () {
 // 6. Exit Intent Popup Handling
 window.handleExitPopupSubmit = function () {
     const emailInput = document.getElementById('exit-email');
+    const companyInput = document.getElementById('exit-company');
     const btn = document.querySelector('#exit-popup-form .btn-primary');
 
     if (!emailInput.value || !emailInput.checkValidity()) {
         emailInput.reportValidity();
         return;
     }
+    if (!companyInput.value || !companyInput.checkValidity()) {
+        companyInput.reportValidity();
+        return;
+    }
 
     const originalText = btn.innerText;
-    btn.innerText = "Processing...";
+    btn.innerText = "Sending...";
     btn.disabled = true;
 
-    const payload = {
-        access_key: "3ad2f3a3-959b-4fa6-a5d3-54bf2f5f31f1",
-        subject: "Exit Popup Lead - AI Guide Download",
-        email: emailInput.value,
-        message: "Downloaded AI Guide via exit-intent popup"
-    };
+    // Use FormData to include all hidden fields (access_key, subject, botcheck honeypot)
+    const form = document.getElementById('exit-popup-form');
+    const formData = new FormData(form);
+    formData.set('email', emailInput.value);
+    formData.set('company', companyInput.value);
+    formData.set('message', 'Requested AI Guide via exit-intent popup — Please follow up with the guide.');
+    const object = Object.fromEntries(formData);
+    const json = JSON.stringify(object);
 
     fetch('https://api.web3forms.com/submit', {
         method: 'POST',
@@ -169,37 +175,24 @@ window.handleExitPopupSubmit = function () {
             'Content-Type': 'application/json',
             'Accept': 'application/json'
         },
-        body: JSON.stringify(payload)
+        body: json
     })
         .then(async (response) => {
             if (response.status == 200) {
-                triggerPDFDownload();
                 closeExitPopup();
-                showFormToast(true, "Guide downloaded! Check your downloads folder.");
+                showFormToast(true, "Thank you! We'll send the guide to your email shortly.");
             } else {
                 alert("Something went wrong. Please try again.");
             }
         })
         .catch(error => {
             console.error(error);
-            triggerPDFDownload();
-            closeExitPopup();
-            showFormToast(true, "Guide downloaded! Check your downloads folder.");
+            alert("Network error. Please check your connection and try again.");
         })
         .finally(() => {
             btn.innerText = originalText;
             btn.disabled = false;
         });
-}
-
-// Helper: Trigger PDF download
-function triggerPDFDownload() {
-    const link = document.createElement('a');
-    link.href = 'DeepNxt Intro-v2.pdf';
-    link.download = 'DeepNxt-Enterprise-AI-Guide.pdf';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
 }
 
 // Helper: Toast Notification (updated to accept custom message)

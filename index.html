@@ -110,7 +110,7 @@
             <a href="#contact" class="btn btn-primary">Start Transformation</a>
             <a href="#journey" class="btn btn-outline">Explore Products</a>
           </div>
-          <a href="#lead-magnet" class="hero-lead-magnet-link">📥 Free: Download our Enterprise AI Transformation Guide →</a>
+          <a href="#lead-magnet" class="hero-lead-magnet-link">📩 Free: Get our Enterprise AI Transformation Guide →</a>
         </div>
 
         <div class="hero-visual">
@@ -187,24 +187,25 @@
           <div class="lead-magnet-form-wrapper">
             <div class="lead-magnet-form-card">
               <h3>Get Instant Access</h3>
-              <p>Enter your email and download the guide immediately.</p>
+              <p>Enter your details and we'll send the guide to your email.</p>
               <form id="lead-magnet-form" onsubmit="return false;">
                 <input type="hidden" name="access_key" value="3ad2f3a3-959b-4fa6-a5d3-54bf2f5f31f1">
                 <input type="hidden" name="subject" value="Lead Magnet Download - AI Transformation Guide">
+                <input type="checkbox" name="botcheck" class="hidden" style="display: none;">
                 <div class="form-field">
                   <input id="lm-name" name="name" type="text" placeholder="Your Name" required />
                 </div>
                 <div class="form-field">
-                  <input id="lm-email" name="email" type="email" placeholder="your@company.com" required />
+                  <input id="lm-email" name="email" type="email" placeholder="Work Email" required />
                 </div>
                 <div class="form-field">
-                  <input id="lm-company" name="company" type="text" placeholder="Company (optional)" />
+                  <input id="lm-company" name="company" type="text" placeholder="Company Name" required />
                 </div>
                 <button type="button" class="btn btn-primary lead-magnet-btn" onclick="handleLeadMagnet()">
-                  📥 Download Free Guide
+                  📩 Request Free Guide
                 </button>
               </form>
-              <p class="lead-magnet-privacy">🔒 No spam. Your data stays private.</p>
+              <p class="lead-magnet-privacy">🔒 No spam. We'll email the guide directly to you.</p>
             </div>
           </div>
         </div>
@@ -566,16 +567,20 @@
       <button class="exit-popup-close" id="exit-popup-close" aria-label="Close popup">&times;</button>
       <span class="lead-magnet-badge">BEFORE YOU GO</span>
       <h3>Download Our Free AI Transformation Guide</h3>
-      <p>Get the blueprint that enterprises use to build their Agentic AI strategy — from foundation to full autonomy.</p>
+      <p>Get the blueprint that enterprises use to build their Agentic AI strategy. We'll email it directly to you.</p>
       <form id="exit-popup-form" onsubmit="return false;">
         <input type="hidden" name="access_key" value="3ad2f3a3-959b-4fa6-a5d3-54bf2f5f31f1">
         <input type="hidden" name="subject" value="Exit Popup Lead - AI Guide Download">
+        <input type="checkbox" name="botcheck" class="hidden" style="display: none;">
         <div class="form-field">
-          <input id="exit-email" name="email" type="email" placeholder="your@company.com" required />
+          <input id="exit-email" name="email" type="email" placeholder="Work Email" required />
         </div>
-        <button type="button" class="btn btn-primary" style="width:100%" onclick="handleExitPopupSubmit()">📥 Download Free Guide</button>
+        <div class="form-field">
+          <input id="exit-company" name="company" type="text" placeholder="Company Name" required />
+        </div>
+        <button type="button" class="btn btn-primary" style="width:100%" onclick="handleExitPopupSubmit()">📩 Request Free Guide</button>
       </form>
-      <p class="lead-magnet-privacy">🔒 No spam. Unsubscribe anytime.</p>
+      <p class="lead-magnet-privacy">🔒 No spam. We'll email the guide directly to you.</p>
     </div>
   </div>
 
